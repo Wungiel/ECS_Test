@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+[AlwaysUpdateSystem]
 public class TurnSystem : ComponentSystem
 {
-    bool switchTurnsOff = false;
-
-    struct TurnManagementComponents
-    {
-        public TurnManagerComponent turnManager;
-    }
+    private bool newTurn = true;
+    private bool switchTurnsOff = false;
+    
 
     struct TurnUsingComponents
     {
@@ -28,18 +26,20 @@ public class TurnSystem : ComponentSystem
             switchTurnsOff = false;
         }
 
-        foreach (TurnManagementComponents c in GetEntities<TurnManagementComponents>())
+        if (newTurn)
         {
-            if (c.turnManager.newTurn)
+            foreach (TurnUsingComponents d in GetEntities<TurnUsingComponents>())
             {
-                foreach (TurnUsingComponents d in GetEntities<TurnUsingComponents>())
-                {
-                    d.turns.newTurn = true;
-                }
-                c.turnManager.newTurn = false;
-                switchTurnsOff = true;
+                d.turns.newTurn = true;
             }
+            switchTurn();
+            switchTurnsOff = true;
         }
+    }
+
+    public void switchTurn()
+    {        
+        newTurn = !newTurn;
     }
 
 
