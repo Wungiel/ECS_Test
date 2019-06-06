@@ -5,30 +5,37 @@ using Unity.Entities;
 
 public class SpawnSystem : ComponentSystem
 {
+
+    GameObject tmp;
+    SpawnComponent tmpSpawn;
+
     struct Components
     {
-        public SpawnData spawnData;
+        public SpawnComponent spawnData;
     }
 
     protected override void OnUpdate()
     {
         foreach(var e in GetEntities<Components>())
         {
-            if (e.spawnData.currentWaveCount == e.spawnData.waveLenght)
+            tmp = e.spawnData.gameObject;
+            tmpSpawn = e.spawnData;
+
+            if (tmpSpawn.currentWaveCount == e.spawnData.waveLenght)
             {
-                if (e.spawnData.timePassed > e.spawnData.timeBetweenWaves)
+                if (tmpSpawn.timePassed > e.spawnData.timeBetweenWaves)
                 {
-                    e.spawnData.currentWaveCount = 0;
-                    e.spawnData.timePassed = 0;
+                    tmpSpawn.currentWaveCount = 0;
+                    tmpSpawn.timePassed = 0;
                 }
             }
             else if (e.spawnData.timePassed > e.spawnData.timeBetweenSpawns)
             {
-                e.spawnData.spawn();
-                e.spawnData.currentWaveCount++;
-                e.spawnData.timePassed = 0;
+                GameObjectEntity.Instantiate(tmpSpawn.spawnedObject, tmp.transform.position, Quaternion.identity, tmp.transform);
+                tmpSpawn.currentWaveCount++;
+                tmpSpawn.timePassed = 0;
             }
-            e.spawnData.timePassed += Time.deltaTime;
+            tmpSpawn.timePassed += Time.deltaTime;
         }
     }
 }

@@ -10,7 +10,7 @@ public enum Direction
     left, right, up, down
 }
 
-public class WaypointData : MonoBehaviour
+public class WaypointComponent : MonoBehaviour
 {
     public Direction direction;
 }

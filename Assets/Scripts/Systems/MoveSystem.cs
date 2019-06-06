@@ -13,7 +13,7 @@ public class MoveSystem : ComponentSystem
     struct Components
     {
         public Transform transform;
-        readonly public MoveData move;           
+        readonly public MoveComponent move;           
     }
 
     protected override void OnCreateManager()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveData : MonoBehaviour
+public class MoveComponent : MonoBehaviour
 {
     public Direction direction;
     public float speed;
@@ -11,7 +11,7 @@ public class MoveData : MonoBehaviour
     {
         if (collision.CompareTag(StringList.layerWaypoint))
         {
-            direction = collision.GetComponent<WaypointData>().direction;
+            direction = collision.GetComponent<WaypointComponent>().direction;
         }
     }
 }
