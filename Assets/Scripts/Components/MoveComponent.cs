@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Entities;
 
 public class MoveComponent : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class MoveComponent : MonoBehaviour
         if (collision.CompareTag(StringList.layerWaypoint))
         {
             direction = collision.GetComponent<WaypointComponent>().direction;
+        } else if (collision.CompareTag(StringList.layerFinish))
+        {
+            DestroyComponent tmpComp = gameObject.AddComponent<DestroyComponent>();
+            Entity tmp = gameObject.GetComponent<GameObjectEntity>().Entity;
+            World.Active.GetExistingManager<EntityManager>().AddComponentObject(tmp, tmpComp);
+
         }
     }
 }

@@ -5,4 +5,5 @@ using UnityEngine;
 public class StringList
 {
     public static readonly string  layerWaypoint = "Waypoint";
+    public static readonly string layerFinish = "Finish";
 }
