@@ -14,6 +14,7 @@ public class DestructionSystem : ComponentSystem
     {
         foreach (var e in GetEntities<Components>())
         {
+            World.GetExistingManager<EntityManager>().RemoveComponent<DestroyComponent>(e.destroyComponent.gameObject.GetComponent<GameObjectEntity>().Entity);
             GameObjectEntity.Destroy(e.destroyComponent.gameObject);
         }
     }
